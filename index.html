@@ -17,20 +17,12 @@
             padding: 0%;
             margin: 0%;
         }
-
-        .Title,
-        .Menu,
-        .Content {
-            border: 1px solid;
-
-        }
     </style>
 </head>
 
 <body>
- 
-    <div class="Content">
-        <div id="map" style="width:100%; height:800px;"></div>
+    <div class="map">
+        <div id="map" style="width:100%; height:500vw;"></div>
     </div>
 
     <script type="text/javascript"
@@ -39,119 +31,80 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-        var socket = io();  // 소켓 io객체 생성
-        //var HOME_PATH = window.HOME_PATH || '.';    // 경로
-
-        var Resion_Data = ['강남구'];
-        var Marker_Data = [];
-        var Info_Data = [];
-
-        for (var key in Resion_Data) {
-            // SQL에서 정보 가져와 저장
-
-        }
-
-
-
-        // 위치 설정
-        var position = new naver.maps.LatLng(37.3595704, 127.105399);
-
-        //지도 생성
-        var map = new naver.maps.Map('map', {
-            center: position,
-            zoom: 15
-        });
-
-        // 마커 설정
-        var markerOptions = {
-            position: position.destinationPoint(90, 15),
-            map: map
-        };
-        // 마커 객체 생성
-        var marker = new naver.maps.Marker(markerOptions);
-
-        // 마커 이벤트 리스너 추가
-        marker.addListener('mouseover', onMouseOver);
-        marker.addListener('mouseout', onMouseOut);
-
-        // 정보
-        var contentString = 'test!!!'
-
-        // 정보창 객체 생성
-        var infowindow = new naver.maps.InfoWindow({
-            content: contentString
-        });
-
         // 마우스를 마커에 올렸을 때 이벤트
         function onMouseOver(e) {
+
             infowindow.open(map, marker);
         }
 
         // 마우스를 마커에서 내렸을 때 이벤트
         function onMouseOut(e) {
-            infowindow.close();
+            var marker = e.overlay,
+                seq = marker.get('seq');
+            socket.emit('msg', seq);
         }
 
-        // 위도 경도 -> 주소
-        function searchCoordinateToAddress(latlng) {
-            //infoWindow.close();
-            naver.maps.Service.reverseGeocode({
-                coords: latlng,
-                orders: [
-                    naver.maps.Service.OrderType.ADDR,
-                    naver.maps.Service.OrderType.ROAD_ADDR
-                ].join(',')
-            }, function (status, response) {
-                if (status === naver.maps.Service.Status.ERROR) {
-                    if (!latlng) {
-                        return alert('ReverseGeocode Error, Please check latlng');
-                    }
-                    if (latlng.toString) {
-                        return alert('ReverseGeocode Error, latlng:' + latlng.toString());
-                    }
-                    if (latlng.x && latlng.y) {
-                        return alert('ReverseGeocode Error, x:' + latlng.x + ', y:' + latlng.y);
-                    }
-                    return alert('ReverseGeocode Error, Please check latlng');
-                }
-                var address = response.v2.address
-                // 지번 주소 : address.jibunAddress
-                // 도로명 주소 : address.roadAddress
+        function onMouseOver(e) {
+            infowindow.open(map, marker);
+        }
+
+        function find_marker(m) {
+            for (var key in Marker_Data) {
+            }
+        }
+
+        var socket = io(); //소켓 io 객체 생성
+        //var HOME_PATH = window.HOME_PATH || '.';    // home경로
+
+        //지도 생성
+        var map = new naver.maps.Map('map', {
+            zoom: 15    // 기본 위치 지도 생성
+        });
+
+        var Resion_Data = ['강남구'];
+        var Marker_Data = [];
+        var Info_Data = [];
+
+        var marker;
+        var infowindow;
+        var coords_x, coords_y;
+
+        socket.on('msg', function (msg) {
+            console.log(msg);
+        });
+
+        for (var i = 0; i < Resion_Data.length; i++) {
+
+            // sql 에서 데이터 받아오기
+            // info_str = 살인 + 강도+ 강간강제추행 + 절도 + 폭력
+            var coords = search_Address_To_Coordinate(Resion_Data[i]);   // Resion_Data로 좌표 계산하기
+            socket.emit('msg', coords);
+            var position = new naver.maps.LatLng(coords_y, coords_x);   // 좌표 LatLng 객체 생성
+
+            // 마커 설정
+            var markerOptions = {
+                position: position.destinationPoint(90, 15),
+                map: map
+            };
+
+            // 마커 생성
+            marker = new naver.maps.Marker(markerOptions);
+
+            // 마커 이벤트 리스너 추가
+            marker.addListener('mouseover', onMouseOver);
+            marker.addListener('mouseout', onMouseOut);
+
+
+            // 정보창 객체 생성
+            infowindow = new naver.maps.InfoWindow({
+                content: info_str
             });
+
+            // 리스트에 같은 인덱스에 push
+            Marker_Data.push(marker);
+            Info_Data.push(infoWindow);
         }
 
-        //주소->위도 경도 변환 item.x = 위도 / item.y = 경도
-        function searchAddressToCoordinate(address) {
-            naver.maps.Service.geocode({
-                query: address
-            }, function (status, response) {
-                if (status === naver.maps.Service.Status.ERROR) {
-                    if (!address) {
-                        return alert('Geocode Error, Please check address');
-                    }
-                    return alert('Geocode Error, address:' + address);
-                }
-                if (response.v2.meta.totalCount === 0) {
-                    return alert('No result.');
-                }
-                var item = response.v2.addresses[0];
-                var point = new naver.maps.Point(item.x, item.y);
-
-                map.setCenter(point);
-
-                //infoWindow.open(map, marker);
-
-                var marker = new naver.maps.Marker({
-                    position: new naver.maps.LatLng(item.y, item.x),
-                    map: map
-                });
-
-            });
-        }
-
-        
-        socket.emit('msg', searchCoordinateToAddress(new naver.maps.LatLng(37.3595704, 127.105399)));
-        //searchAddressToCoordinate('강남구');
 
     </script>
 

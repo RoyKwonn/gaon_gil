@@ -27,24 +27,42 @@ app.get('/design.html', function (req, res) {
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host: '34.146.81.27',
-    user: 'ubuntu',
-    password: 'zmffhqk',
-    database: 'Crime'
+	host : '34.146.81.27',
+	user : 'ubuntu',
+	password : 'zmffhqk',
+	database : 'Crime'
 });
 
 connection.connect();
 
-//connection.query('SELECT 살인, 강도, 강간강제추행, 절도, 폭력 FROM Crime.crime_data where 지역 = "강남구"', (error, rows, fields) => {
-//    if (error) throw error;
-//    console.log('User info is: ', rows);
-//});
+
+connection.query('SELECT * FROM Crime.crime_data where 지역 = "서울"', (error, rows, fields) => {
+if(error) throw error;
+for(var i = 0; i < rows.length; i++) {
+	console.log(rows[i].title + " : " + rows[i].description);
+}
+
+console.log('User info is: ', rows);
+});
 
 
 io.on('connection', (socket) => {
     socket.on('msg', (msg) => {
-        io.emit('msg', msg);
-        console.log(msg);
+
+        connection.query('SELECT * FROM Crime.crime_data where 지역 = "서울"', (error, rows, fields) => {
+            if(error) throw error;
+            for(var i = 0; i < rows.length; i++) {
+                console.log(rows[i].title + " : " + rows[i].description);
+            }
+            
+            console.log('User info is: ', rows);
+            });
+
+
+        io.emit('msg', rows[0].title);
+        console.log( rows[0].title);
+
+
     });
 });
 
