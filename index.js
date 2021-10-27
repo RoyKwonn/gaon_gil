@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+//const { Server } = require("socket.io");
+//const io = new Server(server);
 
 app.use('/assets', express.static(__dirname + '/public/assets'));
 app.use('/images', express.static(__dirname + '/public/images'));
@@ -37,26 +37,26 @@ connection.connect();
 
 
 
-io.on('connection', (socket) => {
-    socket.on('msg', (msg) => {
+//io.on('connection', (socket) => {
+//    socket.on('msg', (msg) => {
 
-        connection.query('SELECT * FROM Crime.crime_data where 지역 = "서울"', (error, rows, fields) => {
-            if(error) throw error;
-            for(var i = 0; i < rows.length; i++) {
-                console.log(rows[i].title + " : " + rows[i].description);
-            }
+ //       connection.query('SELECT * FROM Crime.crime_data where 지역 = "서울"', (error, rows, fields) => {
+   //         if(error) throw error;
+     //       for(var i = 0; i < rows.length; i++) {
+         //       console.log(rows[i].title + " : " + rows[i].description);
+       //     }
             
-            console.log('User info is: ', rows);
-            });
+      //      console.log('User info is: ', rows);
+       //     });
 
-        io.emit('msg', 'dsfgdfgfdg');
-        io.emit('msg', rows[0].title);
-        console.log( rows[0].title);
+       // io.emit('msg', 'dsfgdfgfdg');
+      //  io.emit('msg', rows[0].title);
+       // console.log( rows[0].title);
        
 
 
-    });
-});
+//    });
+//});
 
 server.listen(3000, () => {
     console.log('listening on *:3000');
