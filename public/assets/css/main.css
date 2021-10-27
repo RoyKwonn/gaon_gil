@@ -2277,15 +2277,16 @@ button,
     #map {
       position: relative;
       max-width: 100%;
-      height: 100%;
+      height: 0;
       overflow: hidden;
-      padding-top: 60%;
+      padding-top: 100%;
+      top: 30px;
       }
       #map iframe {
       position: absolute;
       width: 100%;
       height: 100%;
-      top: 30px;
+      top: 0;
       left: 0;
       }
       

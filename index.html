@@ -31,49 +31,87 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-        var socket = io();
-        var HOME_PATH = window.HOME_PATH || '.';
+        let Data = [
+            ["강원", "강원 춘천시", 127.730008, 37.8856501],
+            ["경기", "경기 수원시", 127.009625, 37.2747914],
+            ["경남", "경남 창원시", 128.691957, 35.2378238],
+        ];
 
-        // 위치 설정
-        var position = new naver.maps.LatLng(37.3595704, 127.105399);
+        var Info_Arr = [];
+        var infowindow;
 
         //지도 생성
         var map = new naver.maps.Map('map', {
-            center: position,
-            zoom: 15
+            zoom: 7
         });
 
-        // 마커 설정
-        var markerOptions = {
-            position: position.destinationPoint(90, 15),
-            map: map
-        };
-        // 마커 객체 생성
-        var marker = new naver.maps.Marker(markerOptions);
+        var socket = io();
+        //var HOME_PATH = window.HOME_PATH || '.';
 
-        // 마커 이벤트 리스너 추가
-        marker.addListener('mouseover', onMouseOver);
-        marker.addListener('mouseout', onMouseOut);
+        for (i = 0; i < Data.length; i++) {
 
-        // 정보
-        var contentString = 'test!!!'
+            // 위치 설정
+            var position = new naver.maps.LatLng(Data[i][3], Data[i][2]);
 
-        // 정보창 객체 생성
-        var infowindow = new naver.maps.InfoWindow({
-            content: contentString
-        });
+            // 마커 설정
+            var markerOptions = {
+                position: position.destinationPoint(90, 15),
+                map: map
+            };
+            // 마커 객체 생성
+            var marker = new naver.maps.Marker(markerOptions);
+
+            // 마커 이벤트 리스너 추가
+            marker.addListener('mouseover', onMouseOver);
+            marker.addListener('mouseout', onMouseOut);
+            marker.set('seq', i);
+
+            // 정보
+            var contentString = 'test!!!' + i;
+            Info_Arr.push(contentString)
+        }
 
         // 마우스를 마커에 올렸을 때 이벤트
         function onMouseOver(e) {
+            var marker = e.overlay,
+                seq = marker.get('seq');
+
+            /*****서버로 전송******/
+            var str = Data[seq][2] + ',' + Data[seq][3];
+            socket.emit('msg', str);
+
+            // 정보창 객체 생성
+            infowindow = new naver.maps.InfoWindow({
+                content: Info_Arr[seq]
+            });
+
+            var info = '33,27,757,5278,7624';
+            info = info.split(',');
+            info_str = [
+                '<div class="iw_inner">',
+                '   <h3>' + Data[seq][1] + '</h3>',
+                '   <p> 살인' + info[0] + '건<br />',
+                '   <p> 강도' + info[1] + '건<br />',
+                '   <p> 성범죄' + info[2] + '건<br />',
+                '   <p> 절도' + info[3] + '건<br />',
+                '   <p> 폭력' + info[4] + '건<br />',
+                '   </p>',
+                '</div>'
+            ].join('');
+
+            // 정보창 활성화
             infowindow.open(map, marker);
         }
 
-        // 마우스를 마커에서 내렸을 때 이벤트
+
+
+
+
+
+        // 마우스를 마커에서 내렸을 때
         function onMouseOut(e) {
             infowindow.close();
         }
-        
-        searchAddressToCoordinate('강남구');
 
     </script>
 
