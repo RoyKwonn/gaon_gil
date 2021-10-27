@@ -36,15 +36,6 @@ var connection = mysql.createConnection({
 connection.connect();
 
 
-connection.query('SELECT * FROM Crime.crime_data where 지역 = "서울"', (error, rows, fields) => {
-if(error) throw error;
-for(var i = 0; i < rows.length; i++) {
-	console.log(rows[i].title + " : " + rows[i].description);
-}
-
-console.log('User info is: ', rows);
-});
-
 
 io.on('connection', (socket) => {
     socket.on('msg', (msg) => {
@@ -58,9 +49,10 @@ io.on('connection', (socket) => {
             console.log('User info is: ', rows);
             });
 
-
+        io.emit('msg', 'dsfgdfgfdg');
         io.emit('msg', rows[0].title);
         console.log( rows[0].title);
+       
 
 
     });
