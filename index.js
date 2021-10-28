@@ -45,14 +45,14 @@ io.on('connection', (socket) => {
         var location = msg.split(',');
         connection.query('SELECT 살인, 강도, 성범죄, 절도, 폭력 FROM Crime.crime_data where ( X = \"' + location[0] + '\" and Y = \"' + location[1] + '\")', (error, rows, fields) => {
             if (error) throw error;
-            console.log('User info is: ', rows);
+
+            //for(var i = 0; i < rows.length; i++) {
+                console.log(rows);
+            
+            //console.log('User info is: ', rows);
         });
 
-        for (var i = 0; i < rows.length; i++) {
-            for ( var keyNm in rows[i]) {
-                console.log("key : " + keyNm + ", value : " + rows[i][keyNm]);
-            }
-          }
+        
     });
 });
 
