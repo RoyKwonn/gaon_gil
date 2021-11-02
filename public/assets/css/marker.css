@@ -1,0 +1,13 @@
+h3 {
+    padding: 16px 24px;
+    margin: 0;
+    font-size: 17px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+p {
+    margin-right: 32px;
+    padding: 8px 0;
+    font-size: 16px;
+    text-align: center;
+  }

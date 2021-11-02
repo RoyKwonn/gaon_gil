@@ -41,18 +41,21 @@ connection.connect();
 
 
 io.on('connection', (socket) => {
-    socket.on('msg', (msg) => {
+    socket.on('send', (msg) => {
         var location = msg.split(',');
         connection.query('SELECT 살인, 강도, 성범죄, 절도, 폭력 FROM Crime.crime_data where ( X = \"' + location[0] + '\" and Y = \"' + location[1] + '\")', (error, rows, fields) => {
             if (error) throw error;
+            io.emit('response', rows);
 
-            //for(var i = 0; i < rows.length; i++) {
-                console.log(rows);
-            
-            //console.log('User info is: ', rows);
         });
+    });
+});
 
-        
+
+io.on('connection', (socket) => {
+    socket.on('msg_0', (msg) => {
+        console.log('------------');
+        console.log(msg);
     });
 });
 
