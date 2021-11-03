@@ -29,7 +29,7 @@ app.get('/write', (req, res) => {
 });
 
 
-////*******클러스터 테스트 페이지*******////
+////******줌 테스트 페이지*******////
 app.get('/test', (req, res) => {
     res.sendFile(__dirname + '/test.html');
 });
@@ -52,7 +52,17 @@ io.on('connection', (socket) => {
         connection.query('SELECT 살인, 강도, 성범죄, 절도, 폭력 FROM Crime.crime_data where ( X = \"' + location[0] + '\" and Y = \"' + location[1] + '\")', (error, rows, fields) => {
             if (error) throw error;
             io.emit('response', rows);
+        });
+    });
+});
 
+
+io.on('connection', (socket) => {
+    socket.on('send_seoul', (msg) => {
+        var location = msg.split(',');
+        connection.query('SELECT 살인, 강도, 성범죄, 절도, 폭력 FROM Crime.seoul_data where ( X = \"' + location[0] + '\" and Y = \"' + location[1] + '\")', (error, rows, fields) => {
+            if (error) throw error;
+            io.emit('response', rows);
         });
     });
 });

@@ -6,9 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>가온길</title>
-    <script type="text/javascript"
-        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=edbz9sxmqq"></script>
+    <title>test1</title>
     <style>
         html,
         body {
@@ -17,10 +15,10 @@
             padding: 0%;
             margin: 0%;
         }
-        
     </style>
     <link rel="stylesheet" href="assets/css/marker.css" />
 </head>
+
 
 <body>
     <div>
@@ -35,18 +33,18 @@
     <script>
 
         var marker  // 마커 변수
-        var last_marker  // 마커 변수
-        var seq     // 마커 인덱싱 변수
+        var last_marker  // 이전 마커 변수
         var infowindow; // 정보창 변수
-        var str // 서버로 보내는 정보
+        var seq = 0;     // 마커 인덱싱 변수
+        var threshold = 10; //줌 임계치
 
         var markers = []; // 마커 저장 리스트
+        var socket = io();  // 소켓 io 객체
 
-        // 지역, 좌표 데이터
-        let Data = [
-            //["강원", "강원 춘천시", 127.730008, 37.8856501],
-            //["경기", "경기 수원시", 127.009625, 37.2747914],
-            //["경남", "경남 창원시", 128.691957, 35.2378238],
+
+
+        // 지역, 좌표 데이터 : 도
+        let Data_1 = [
             ['강원', '강원 춘천시 중앙로 1 강원도청', 127.730008, 37.8856501],
             ['경기', '경기 수원시 팔달구 효원로 1 경기도청', 127.009625, 37.2747914],
             ['경남', '경남 창원시 의창구 중앙대로 300 경상남도청', 128.691957, 35.2378238],
@@ -63,17 +61,43 @@
             ['전북', '전북 전주시 완산구 효자로 225 전라북도청', 127.110636, 35.8200679],
             ['제주', '제주 제주시 문연로 6', 126.498144, 33.4889018],
             ['충남', '충남 홍성군 홍북읍 충남대로 21', 126.673684, 36.6589649],
-            ['충북', '충북 청주시 상당구 상당로 82', 127.491422, 36.6353841]
 
         ];
 
-        
+        // 지역, 좌표 데이터 : 구
+        let Data_2 = [
+            ['강남구', '강남구', 127.0410895, 37.51844343],
+            ['강동구', '강동구', 127.1236628, 37.53527866],
+            ['강북구', '강북구', 127.025572, 37.63996359],
+            ['강서구', '강서구', 126.8496064, 37.55141215],
+            ['관악구', '관악구', 126.9518004, 37.48138739],
+            ['광진구', '광진구', 127.0822699, 37.5386779],
+            ['구로구', '구로구', 126.8876176, 37.49565755],
+            ['금천구', '금천구', 126.8954541, 37.45693701],
+            ['노원구', '노원구', 127.0561977, 37.65745213],
+            ['동대문구', '동대문구', 127.0398285, 37.57461105],
+            ['동작구', '동작구', 126.9397568, 37.51261701],
+            ['마포구', '마포구', 126.9016491, 37.56640845],
+            ['서대문구', '서대문구', 126.9364517, 37.57949876],
+            ['서초구', '서초구', 127.0326932, 37.48375277],
+            ['성동구', '성동구', 127.0350515, 37.56688066],
+            ['성북구', '성북구', 127.0167215, 37.58958702],
+            ['송파구', '송파구', 127.1060442, 37.51462032],
+            ['양천구', '양천구', 126.8666717, 37.51714651],
+            ['영등포구', '영등포구', 126.8960789, 37.52947949],
+            ['용산구', '용산구', 126.9900644, 37.53277676],
+            ['은평구', '은평구', 126.9289187, 37.60958632],
+            ['종로구', '종로구', 126.9789196, 37.57362994],
+            ['중구', '중구', 126.9940776, 37.57743552],
+            ['중랑구', '중랑구', 127.0924953, 37.60672997]
+
+        ];
+
 
         //지도 객체 생성
         var map = new naver.maps.Map('map', {
-            zoom: 8
+            zoom: 7
         });
-
 
         // 현재 영역 계산
         var bounds = map.getBounds(),
@@ -82,14 +106,13 @@
             lngSpan = northEast.lng() - southWest.lng(),
             latSpan = northEast.lat() - southWest.lat();
 
-        var socket = io();
-        //var HOME_PATH = window.HOME_PATH || '.';
-        
 
-        for (i = 0; i < Data.length; i++) {
+
+        // 도 마커 생성
+        for (var i = 0; i < Data_1.length; i++) {
 
             // 위치 설정
-            var position = new naver.maps.LatLng(Data[i][3], Data[i][2]);
+            var position = new naver.maps.LatLng(Data_1[i][3], Data_1[i][2]);
 
             // 마커 설정
             var markerOptions = {
@@ -98,78 +121,67 @@
             };
             // 마커 객체 생성
             marker = new naver.maps.Marker(markerOptions);
-
-            // 마커 이벤트 리스너 추가
-            marker.addListener('mouseover', onMouseOver);
-            marker.addListener('mouseout', onMouseOut);
-            marker.set('seq', i);
-
+            marker.set('seq', seq);
+            seq++;
 
             // 리스트에 마커 추가
             markers.push(marker);
 
         }
 
-        /******** 여기서 부터 코드 삽입********/
+        // 구 마커 생성
+        for (var i = 0; i < Data_2.length; i++) {
 
+            // 위치 설정
+            var position = new naver.maps.LatLng(Data_2[i][3], Data_2[i][2]);
 
-        // 각 마커의 클릭이벤트 처리
-        for (var i = 0, ii = markers.length; i < ii; i++) {
-            naver.maps.Event.addListener(markers[i], "click", function (e) {
-                //socket.emit('msg_0', 'click');
-                if (infowindow == null) {
-                    marker = e.overlay;
-                    create_infowindow(marker);
-                }
-                else if (infowindow.getMap()) {
-                    infowindow.close();
-                    marker = e.overlay;
-                    if(last_marker != marker){
-                        create_infowindow(marker); 
-                    }
+            // 마커 설정
+            var markerOptions = {
+                position: position.destinationPoint(90, 15),
+                map: map
+            };
+            // 마커 객체 생성
+            marker = new naver.maps.Marker(markerOptions);
+            marker.set('seq', seq);
+            seq++;
 
-                } else {
-                    marker = e.overlay;
-                    create_infowindow(marker);
-                }
-            });
+            // 리스트에 마커 추가
+            markers.push(marker);
+
         }
+        
+        updateMarkers_zoom()
 
 
-
-        // 지도의 영역이 달라졌을 때 아밴트 처리
-        naver.maps.Event.addListener(map, 'idle', function () {
-            updateMarkers(map, markers);
-        });
-
-
-
-        // 정보창 생성
-        function create_infowindow(m) {
-            seq = marker.get('seq');
-            last_marker = m;
-            /*****서버로 전송******/
-            str = Data[seq][2] + ',' + Data[seq][3];
-            socket.emit('send', str);
-            
-        }
-
-
-
-        /*****서버에서 수신******/
+        /***********************서버에서 수신******************************/
         socket.on('response', function (msg) {
             // 정보 문자열 생성
-            var info_str = [
-                '<div class="iw_inner">',
-                '   <h3>' + Data[seq][0] + '</h3>',
-                '   <p> 살인 ' + msg[0]['살인'] + '건<br />',
-                '   <p> 강도 ' + msg[0]['강도'] + '건<br />',
-                '   <p> 성범죄 ' + msg[0]['성범죄'] + '건<br />',
-                '   <p> 절도 ' + msg[0]['절도'] + '건<br />',
-                '   <p> 폭력 ' + msg[0]['폭력'] + '건<br />',
-                '   </p>',
-                '</div>'
-            ].join('');
+            if (seq < Data_1.length) {
+                var info_str = [
+                    '<div class="iw_inner">',
+                    '   <h3>' + Data_1[seq][0] + '</h3>',
+                    '   <p> 살인 ' + msg[0]['살인'] + '건<br />',
+                    '   <p> 강도 ' + msg[0]['강도'] + '건<br />',
+                    '   <p> 성범죄 ' + msg[0]['성범죄'] + '건<br />',
+                    '   <p> 절도 ' + msg[0]['절도'] + '건<br />',
+                    '   <p> 폭력 ' + msg[0]['폭력'] + '건<br />',
+                    '   </p>',
+                    '</div>'
+                ].join('');
+            }
+            else {
+                var info_str = [
+                    '<div class="iw_inner">',
+                    '   <h3>' + Data_2[seq - Data_1.length][0] + '</h3>',
+                    '   <p> 살인 ' + msg[0]['살인'] + '건<br />',
+                    '   <p> 강도 ' + msg[0]['강도'] + '건<br />',
+                    '   <p> 성범죄 ' + msg[0]['성범죄'] + '건<br />',
+                    '   <p> 절도 ' + msg[0]['절도'] + '건<br />',
+                    '   <p> 폭력 ' + msg[0]['폭력'] + '건<br />',
+                    '   </p>',
+                    '</div>'
+                ].join('');
+            }
 
             // 정보창 객체 생성
             infowindow = new naver.maps.InfoWindow({
@@ -183,49 +195,172 @@
             marker = null;
         });
 
-        // 마우스를 마커에 올렸을 때 이벤트
-        function onMouseOver(e) {
-            //marker = e.overlay;
-            //create_infowindow(marker);
-        }
 
 
-        // 마우스를 마커에서 내렸을 때
-        function onMouseOut(e) {
-            //정보창 비활성화
-            //infowindow.close();
-        }
 
+        /********************************함수*********************************/
 
-        // 범위에 따라 표시 되는 마커 변경
-        function updateMarkers(map, markers) {
-            var mapBounds = map.getBounds();
-            var marker, position;
-            for (var i = 0; i < markers.length; i++) {
-                marker = markers[i]
-                position = marker.getPosition();
+        // 정보창 생성
+        function create_infowindow(_marker) {
+            var str;
+            seq = marker.get('seq');
+            last_marker = _marker;
+            if (seq < Data_1.length) {
+                str = Data_1[seq][2] + ',' + Data_1[seq][3];
+                /*****DB 정보 요청******/
+                socket.emit('send', str);
 
-                if (mapBounds.hasLatLng(position))
-                    showMarker(map, marker);
-                else
-                    hideMarker(map, marker);
             }
+
+            else {
+                str = Data_2[seq - Data_1.length][2] + ',' + Data_2[seq - Data_1.length][3];
+                /*****DB 정보 요청******/
+                socket.emit('send_seoul', str);
+            }
+
+
         }
+
 
         // 마커 보이기
-        function showMarker(map, marker) {
-            if (marker.getMap()) return;
-            marker.setMap(map);
+        function showMarker(_map, _marker) {
+            if (_marker.getMap()) return;
+            _marker.setMap(_map);
         }
 
 
         // 마커 숨기기
-        function hideMarker(map, marker) {
-            if (!marker.getMap()) return;
-            marker.setMap(null);
+        function hideMarker(_map, _marker) {
+            if (!_marker.getMap()) return;
+
+            if (last_marker == _marker) {
+                // 선택 되었던 마커가 비활성화 된다면, 정보창 초기화
+                if (infowindow == null) { }
+                else if (infowindow.getMap())
+                    infowindow.close();
+            }
+            _marker.setMap(null);
         }
 
+        // 범위에 따라 표시 되는 마커 변경
+        function updateMarkers_bound(map, markers) {
+            var mapBounds = map.getBounds();
+            var marker, position, flag = 0;
+
+            // 줌상태를 고려하여 마커를 표시
+
+            // 줌이 임계치 보다 확대 되었다면
+            if (map.getZoom() > threshold){
+                flag = 1;
+            }
+
+
+            for (var i = 0; i < Data_1.length; i++) {
+                marker = markers[i]
+                position = marker.getPosition();
+
+                if (mapBounds.hasLatLng(position) && !flag)
+                    showMarker(map, marker);
+                else
+                    hideMarker(map, marker);
+            }
+
+
+            for (var i = Data_1.length; i < markers.length; i++) {
+                marker = markers[i]
+                position = marker.getPosition();
+
+                if (mapBounds.hasLatLng(position) && flag)
+                    showMarker(map, marker);
+                else
+                    hideMarker(map, marker);
+            }
+
+
+
+
+        }
+
+        function updateMarkers_zoom() {
+            socket.emit('msg', 'OK!');
+
+            // 임계치 보다 지도 확대시
+            if (map.getZoom() > threshold) {
+                // 도 마커 비활성화
+                for (var i = 0, ii = Data_1.length; i < ii; i++) {
+                    hideMarker(map, markers[i]);
+                }
+                // 구 마커 활성화
+                for (var i = Data_1.length, ii = markers.length; i < ii; i++) {
+                    showMarker(map, markers[i]);
+                }
+
+            }
+            else {
+                // 도 마커 활성화
+                for (var i = 0, ii = Data_1.length; i < ii; i++) {
+                    showMarker(map, markers[i]);
+                }
+                // 구 마커 비활성화
+                for (var i = Data_1.length, ii = markers.length; i < ii; i++) {
+                    hideMarker(map, markers[i]);
+                }
+            }
+
+        }
+
+
+
+
+        /***************************************이벤트처리**************************************/
+
+        // 각 마커의 클릭이벤트 처리
+        for (var i = 0, ii = markers.length; i < ii; i++) {
+            naver.maps.Event.addListener(markers[i], "click", function (e) {
+                // 처음으로 정보창을 생성하는 경우
+                if (infowindow == null) {
+                    marker = e.overlay;
+                    create_infowindow(marker);
+                }
+                //정보창이 켜져 있는 경우
+                else if (infowindow.getMap()) {
+                    infowindow.close();
+                    marker = e.overlay;
+                    // 이전과 다른 마커를 선택했다면 다른 마커의 정보창을 생성한다.
+                    if (last_marker != marker) {
+                        create_infowindow(marker);
+                    }
+                } else {    // 처음으로 정보창을 생성하는 것이 아닐 경우 : null 오류 처리
+                    marker = e.overlay;
+                    create_infowindow(marker);
+                }
+            });
+        }
+
+
+
+        // 지도의 줌이 달라졌을 때 이벤트 처리
+        naver.maps.Event.addListener(map, 'zoom_changed', function (zoom) {
+
+            // 영역 밖의 마커 비활성화
+            updateMarkers_bound(map, markers);
+
+            // 줌이벤트 마커 갱신 
+            updateMarkers_zoom();
+
+        });
+
+
+
+        // 지도를 그래그 했을때
+        naver.maps.Event.addListener(map, 'drag', function () {
+            updateMarkers_bound(map, markers);
+        });
+
+
+
     </script>
+
 
 </body>
 
