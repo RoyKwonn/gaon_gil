@@ -29,6 +29,12 @@ app.get('/write', (req, res) => {
 });
 
 
+////*******클러스터 테스트 페이지*******////
+app.get('/test', (req, res) => {
+    res.sendFile(__dirname + '/test.html');
+});
+
+
 var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: '34.146.81.27',
