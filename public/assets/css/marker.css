@@ -1,14 +1,30 @@
 h3 {
-    text-align: center;
+    text-align: left;
     padding: 10px 10px;
     margin: 0;
     font-size: 18px;
+    color: white;
     border-bottom: 1px solid #868686;
+    background-color: rgb(57, 54, 218);
+}
+
+h5 {
+    text-align: left;
+    padding: 6px 10px;
+    margin: 0;
+    font-size: 13px;
+}
+h5:after{
+    border-bottom: 1px solid #000000;
+    padding: 3px;
+    width: 52px;
+    display: block;
+    content: "";
 }
 
 p {
-    margin: 0;
-    padding: 10px 10px;
+    margin : 0;
+    padding: 5px 10px;
     font-size: 12px;
-    text-align: center;
+    text-align: left;
   }
