@@ -1,309 +1,271 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>test</title>
-    <style>
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            padding: 0%;
-            margin: 0%;
-        }
-    </style>
-    <link rel="stylesheet" href="assets/css/marker.css" />
+    <title>가온길 | Board</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+
+                <!-- Header -->
+                <header id="header">
+                    <a href="/" class="logo">
+                        <img src="/images/11.png" style="display: block; margin: 0 auto; margin-top: -55px;
+										width:85px; height:75px;">
+                    </a>
+                </header>
+                <section>
+                    <header class="major">
+                        <h2>건의 게시판</h2>
+                    </header>
+                    <div class="board_list_wrap">
+                        <table class="board_list">
+                            <caption>
+                                게시판 목록
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>글쓴이</th>
+                                    <th>작성일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>5</td>
+                                    <td class="tit">
+                                        <a href="#">우리의 도메인 가온로드</a>
+                                    </td>
+                                    <td>관리자</td>
+                                    <td>2019-11-20</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td class="tit">
+                                        <a href="#">gaonroad.com</a>
+                                    </td>
+                                    <td>관리자</td>
+                                    <td>2019-11-12</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td class="tit">
+                                        <a href="#">코딩은 X거워요.</a>
+                                    </td>
+                                    <td>관리자</td>
+                                    <td>2019-11-02</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td class="tit">
+                                        <a href="#">가 각 ㅏ 온 길 gaongil</a>
+                                    </td>
+                                    <td>관리자</td>
+                                    <td>2019-10-28</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="tit">
+                                        <a href="#">가온기르기릐그리ㅢㄱ</a>
+                                    </td>
+                                    <td>관리자</td>
+                                    <td>2019-10-24</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="/write" class="btn" style="float:right">글쓰기</a>
+                        <div class="paging">
+                            <a href="#" class="bt"> ◀ </a>
+                            <a href="#" class="num">1</a>
+                            <a href="#" class="num">2</a>
+                            <a href="#" class="num">3</a>
+                            <a href="#" class="bt"> ▶ </a>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div id="sidebar">
+                        <div class="inner">
+
+                            <!-- Menu -->
+                            <nav id="menu">
+                                <header class="major">
+                                    <h2>Menu</h2>
+                                </header>
+                                <ul>
+                                    <li><a href="/">소개</a></li>
+                                    <li><a href="/main">지도</a></li>
+                                    <li>
+                                        <span class="opener">뉴스기사</span>
+                                        <ul>
+                                            <li><a href="/news/seoul">서울</a></li>
+                                            <li><a href="/news/gyeonggi">경기</a></li>
+                                            <li><a href="/news/incheon">인천</a></li>
+                                            <li><a href="/news/busan">부산</a></li>
+                                            <li><a href="/news/ulsan">울산</a></li>
+                                            <li><a href="/news/gyeongsangnam">경남</a></li>
+                                            <li><a href="/news/daegu">대구</a></li>
+                                            <li><a href="/news/gyeongsangbuk">경북</a></li>
+                                            <li><a href="/news/gwangju ">광주</a></li>
+                                            <li><a href="/news/jellanam">전남</a></li>
+                                            <li><a href="/news/jeollabuk">전북</a></li>
+                                            <li><a href="/news/daejeon">대전</a></li>
+                                            <li><a href="/news/chungcheongnam">충남</a></li>
+                                            <li><a href="/news/sejong">세종</a></li>
+                                            <li><a href="/news/chungcheongbuk">충북</a></li>
+                                            <li><a href="/news/gangwon">강원</a></li>
+                                            <li><a href="/news/jeju">제주</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="/board">건의 게시판</a></li>
+                                </ul>
+                            </nav>
+
+                            <!-- Section -->
+
+                            <!-- Footer -->
+                            <footer id="footer">
+                                <p class="copyright">Copyright © 2021, Gaon road, SoonChunHyang University, All rights
+                                    reserved.</p>
+                            </footer>
+                        </div>
+                    </div>
+            </div>
+
+            <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/browser.min.js"></script>
+            <script src="assets/js/breakpoints.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <script src="assets/js/main.js"></script>
+            <script src="/socket.io/socket.io.js"></script>
 
 
-<body>
-    <div>
-        <div id="map" style="width:100%; height:600px;"></div>
-    </div>
+            <script>
+                var board_len;  // 전체 페이지 수
+                var last_board_len; // 마지막 페이지의 게시글 수
+                var select_board = 1;   // 선택된 페이지
+                var board_data = [];
+                var socket = io();  // 소켓 io 객체
 
-    <script type="text/javascript"
-        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=edbz9sxmqq&submodules=geocoder"></script>
+                socket.emit('request_board_size', null);  // 게시판 크기 데이터 요청
 
-    <script src="/socket.io/socket.io.js"></script>
-
-    <script>
-
-
-        //지도 객체 생성
-        var map = new naver.maps.Map('map', {
-            zoom: 6
-        });
-
-        var marker;  // 마커 변수
-        var last_marker;  // 이전 마커 변수
-        var infowindow; // 정보창 변수
-        var seq = 0;     // 마커 인덱싱 변수
-        var threshold = 10; //줌 임계치
-
-        var markers = []; // 마커 저장 리스트
-        // 지역-좌표데이터
-        var Data_1 = [];
-        var Data_2 = [];
-        var socket = io();  // 소켓 io 객체
-
-
-
-        // 도 좌표 데이터 요청
-        socket.emit('request_Nationwide_data');
-        // 구 좌표 데이터 요청
-        socket.emit('request_Seoul_data');
-
-
-        /****************서버로 부터 받음****************/
-        socket.on('Nationwide_data', function (msg) {
-            for (var i = 0; i < msg.length; i++) {
-                var arr = [];
-                arr.push(msg[i]['지역']);
-                arr.push(msg[i]['X']);
-                arr.push(msg[i]['Y']);
-
-                Data_1.push(arr);
-
-            }
-            make_Marker(Data_1);
-        });
-
-
-
-        socket.on('Seoul_data', function (msg) {
-            for (var i = 0; i < msg.length; i++) {
-                var arr = [];
-                arr.push(msg[i]['지역']);
-                arr.push(msg[i]['X']);
-                arr.push(msg[i]['Y']);
-
-                Data_2.push(arr);
-            }
-            make_Marker(Data_2);
-            updateMarkers_zoom();
-
-
-            // 각 마커의 클릭이벤트 처리
-            for (var i = 0, ii = markers.length; i < ii; i++) {
-                naver.maps.Event.addListener(markers[i], "click", function (e) {
-                    
-                    // 처음으로 정보창을 생성하는 경우
-                    if (infowindow == null) {
-                        marker = e.overlay;
-                        create_infowindow(marker);
-                    }
-                    //정보창이 켜져 있는 경우
-                    else if (infowindow.getMap()) {
-                        infowindow.close();
-                        marker = e.overlay;
-                        // 이전과 다른 마커를 선택했다면 다른 마커의 정보창을 생성한다.
-                        if (last_marker != marker) {
-                            create_infowindow(marker);
-                        }
-                    } else {    // 처음으로 정보창을 생성하는 것이 아닐 경우 : null 오류 처리
-                        marker = e.overlay;
-                        create_infowindow(marker);
+                // 게시판 크기 데이터 수신
+                socket.on('board_size', function (msg) {
+                    board_len = parseInt(msg[0]['count(num)'] / 5);
+                    last_board_len = parseInt(msg[0]['count(num)'] % 5);
+                    for (var i = 0; i < board_len + 1; i++) {
+                        var div = document.getElementsByClassName("paging")[0];
+                        var a = document.createElement('a');
+                        a.innerHTML = "" + (i + 1);
+                        div.appendChild(a);
                     }
                 });
-            }
+
+                socket.emit('request_board_data', null);  // 게시글 데이터 요청
+                // 게시글 데이터 수신
+                socket.on('board_data', function (msg) {
+                    for (var i = 0; i < msg.length; i++) {
+                        var arr = [];
+                        arr.push(msg[i]['num']);
+                        arr.push(msg[i]['writer']);
+                        arr.push(msg[i]['pw']);
+                        arr.push(msg[i]['title']);
+                        arr.push(msg[i]['body']);
+                        arr.push(msg[i]['date']);
+
+                        board_data.push(arr);
+                    }
+                    //socket.emit('msg_00', board_data);  // 게시글 데이터 요청
+                    create_board();
+
+                });
 
 
-
-        });
-
-
-
-        socket.on('response', function (msg) {
-            // 정보 문자열 생성
-            if (seq < Data_1.length) {
-                var info_str = [
-                    '<div class="iw_inner">',
-                    '   <h3>' + Data_1[seq][0] + '</h3>',
-                    '   <h5>범죄 현황</h5>',
-                    '   <p><b>살인: </b>' + msg[0]['살인'] + '건<br />',
-                    '   <p><b>강도: </b>' + msg[0]['강도'] + '건<br />',
-                    '   <p><b>절도: </b>' + msg[0]['절도'] + '건<br />',
-                    '   <p><b>폭력: </b>' + msg[0]['폭력'] + '건<br />',
-                    '   <p><b>성범죄: </b>' + msg[0]['성범죄'] + '건<br />',
-                    '   <br>',
-                    '   </p>',
-                    '</div>'
-                ].join('');
-            }
-            else {
-                var info_str = [
-                    '<div class="iw_inner">',
-                    '   <h3>' + Data_2[seq - Data_1.length][0] + '</h3>',
-                    '   <h5>범죄 현황</h5>',
-                    '   <p> 살인 ' + msg[0]['살인'] + '건<br />',
-                    '   <p> 강도 ' + msg[0]['강도'] + '건<br />',
-                    '   <p> 절도 ' + msg[0]['절도'] + '건<br />',
-                    '   <p> 폭력 ' + msg[0]['폭력'] + '건<br />',
-                    '   <p> 성범죄 ' + msg[0]['성범죄'] + '건<br />',
-                    '   </p>',
-                    '</div>'
-                ].join('');
-            }
-
-            // 정보창 객체 생성
-            infowindow = new naver.maps.InfoWindow({
-                content: info_str
-            });
-
-            //socket.emit('msg_0', info_str);
-
-            // 정보창 활성화
-            infowindow.open(map, marker);
-            marker = null;
-        });
-
-
-
-
-
-        /****************함수****************/
-
-        // 마커 생성
-        function make_Marker(arr) {
-            for (var i = 0; i < arr.length; i++) {
-                // 좌표 설정
-                var position = new naver.maps.LatLng(arr[i][2], arr[i][1]);
-                // 마커 설정
-                var markerOptions = {
-                    position: position.destinationPoint(90, 15),
-                    map: map
-                };
-                // 마커 객체 생성
-                marker = new naver.maps.Marker(markerOptions);
-                marker.set('seq', seq);
-                seq++;
-
-                // 리스트에 마커 추가
-                markers.push(marker);
-            }
-        }
-
-
-        // 정보창 생성
-        function create_infowindow(_marker) {
-            var str;
-            seq = marker.get('seq');
-            last_marker = _marker;
-            if (seq < Data_1.length) {
-                str = Data_1[seq][1] + ',' + Data_1[seq][2];
-                /*****DB 정보 요청******/
-                socket.emit('send', str);
-            }
-            else {
-                str = Data_2[seq - Data_1.length][1] + ',' + Data_2[seq - Data_1.length][2];
-                /*****DB 정보 요청******/
-                socket.emit('send_seoul', str);
-            }
-        }
-
-
-        // 마커 보이기
-        function showMarker(_map, _marker) {
-            if (_marker.getMap()) return;
-            _marker.setMap(_map);
-        }
-
-
-        // 마커 숨기기
-        function hideMarker(_map, _marker) {
-            if (!_marker.getMap()) return;
-
-            if (last_marker == _marker) {
-                // 선택 되었던 마커가 비활성화 된다면, 정보창 초기화
-                if (infowindow == null) { }
-                else if (infowindow.getMap())
-                    infowindow.close();
-            }
-            _marker.setMap(null);
-        }
-
-        // 범위에 따라 표시 되는 마커 변경
-        function updateMarkers_bound(map, markers) {
-            var mapBounds = map.getBounds();
-            var marker, position, flag = 0;
-
-            // 줌상태를 고려하여 마커를 표시
-
-            // 줌이 임계치 보다 확대 되었다면
-            if (map.getZoom() > threshold) {
-                flag = 1;
-            }
-
-            for (var i = 0; i < Data_1.length; i++) {
-                marker = markers[i]
-                position = marker.getPosition();
-                if (mapBounds.hasLatLng(position) && !flag)
-                    showMarker(map, marker);
-                else
-                    hideMarker(map, marker);
-            }
-
-            for (var i = Data_1.length; i < markers.length; i++) {
-                marker = markers[i]
-                position = marker.getPosition();
-                if (mapBounds.hasLatLng(position) && flag)
-                    showMarker(map, marker);
-                else
-                    hideMarker(map, marker);
-            }
-        }
-
-        function updateMarkers_zoom() {
-            // 임계치 보다 지도 확대시
-            if (map.getZoom() > threshold) {
-                // 도 마커 비활성화
-                for (var i = 0, ii = Data_1.length; i < ii; i++) {
-                    hideMarker(map, markers[i]);
-                }
-                // 구 마커 활성화
-                for (var i = Data_1.length, ii = markers.length; i < ii; i++) {
-                    showMarker(map, markers[i]);
+                // 게시글 선택
+                function select_board() {
+                    socket.emit("msg_00", "게시글 선택!!");
                 }
 
-            }
-            else {
-                // 도 마커 활성화
-                for (var i = 0, ii = Data_1.length; i < ii; i++) {
-                    showMarker(map, markers[i]);
+                function create_board() {
+
+                    // 선택된 페이지가 마지막 페이지라면 
+                    if (select_board - 1 == board_len) {
+                        for (var i = last_board_len - 1; i > -1; i--) {
+
+                            var tbody = document.getElementsByTagName("tbody").item(0);
+
+                            var tr = document.createElement('tr');
+                            var td_0 = document.createElement('td');
+                            td_0.innerHTML = board_data[((select_board - 1) * 5) + i][0];  // 번호
+                            var td_1 = document.createElement('td')
+                            td_1.className = "tit";
+                            var a = document.createElement('a');
+                            a.innerHTML = board_data[((select_board - 1) * 5) + i][3];  // 제목
+                            a.href = "#";
+                            a.onclick = "select_board();"
+                            td_1.appendChild(a);
+
+
+                            var td_2 = document.createElement('td');
+                            td_2.textContent = board_data[((select_board - 1) * 5) + i][1]; // 작성자 
+                            var td_3 = document.createElement('td');
+                            td_3.textContent = board_data[((select_board - 1) * 5) + i][5]; // 작성일
+
+                            tr.appendChild(td_0);
+                            tr.appendChild(td_1);
+                            tr.appendChild(td_2);
+                            tr.appendChild(td_3);
+                            tbody.appendChild(tr);
+
+                        }
+                    }
+                    else {
+                        for (var i = 4; i > -1; i--) {
+
+                            var tbody = document.getElementsByTagName("tbody").item(0);
+
+                            var tr = document.createElement('tr');
+                            var td_0 = document.createElement('td');
+                            td_0.innerHTML = board_data[((select_board - 1) * 5) + i][0];  // 번호
+                            var td_1 = document.createElement('td')
+                            td_1.className = "tit";
+                            var a = document.createElement('a');
+                            a.innerHTML = board_data[((select_board - 1) * 5) + i][3];  // 제목
+                            a.href = "#";
+                            a.onclick = "select_board();"
+                            td_1.appendChild(a);
+
+
+                            var td_2 = document.createElement('td');
+                            td_2.textContent = board_data[((select_board - 1) * 5) + i][1]; // 작성자 
+                            var td_3 = document.createElement('td');
+                            td_3.textContent = board_data[((select_board - 1) * 5) + i][5]; // 작성일
+
+                            tr.appendChild(td_0);
+                            tr.appendChild(td_1);
+                            tr.appendChild(td_2);
+                            tr.appendChild(td_3);
+                            tbody.appendChild(tr);
+
+                        }
+                    }
                 }
-                // 구 마커 비활성화
-                for (var i = Data_1.length, ii = markers.length; i < ii; i++) {
-                    hideMarker(map, markers[i]);
-                }
-            }
 
-        }
+            </script>
 
-
-        /***************************************이벤트처리**************************************/
-
-        // 지도의 줌이 달라졌을 때 이벤트 처리
-        naver.maps.Event.addListener(map, 'zoom_changed', function (zoom) {
-            // 영역 밖의 마커 비활성화
-            updateMarkers_bound(map, markers);
-            // 줌이벤트 마커 갱신 
-            updateMarkers_zoom();
-        });
-
-
-        // 지도를 그래그 했을때
-        naver.maps.Event.addListener(map, 'drag', function () {
-            updateMarkers_bound(map, markers);
-        });
-
-
-
-    </script>
 
 
 </body>

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>가온길 | News</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/box.css" />
+</head>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+
+                <!-- Header -->
+                <header id="header">
+                    <a href="/" class="logo">
+                        <img src="/images/11.png" style="display: block; margin: 0 auto; margin-top: -55px;
+										width:85px; height:75px;">
+                    </a>
+                </header>
+                <section>
+                    <header class="major">
+                        <h2>경북</h2>
+                    </header>
+                    <div class="boxx">
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="inner">
+
+                <!-- Menu -->
+                <nav id="menu">
+                    <header class="major">
+                        <h2>Menu</h2>
+                    </header>
+                    <ul>
+                        <li><a href="/">소개</a></li>
+                        <li><a href="/main">지도</a></li>
+                        <li>
+                            <span class="opener">뉴스 기사</span>
+                            <ul>
+                                <li><a href="/news/seoul">서울</a></li>
+                                <li><a href="/news/gyeonggi">경기</a></li>
+                                <li><a href="/news/incheon">인천</a></li>
+                                <li><a href="/news/busan">부산</a></li>
+                                <li><a href="/news/ulsan">울산</a></li>
+                                <li><a href="/news/gyeongsangnam">경남</a></li>
+                                <li><a href="/news/daegu">대구</a></li>
+                                <li><a href="/news/gyeongsangbuk">경북</a></li>
+                                <li><a href="/news/gwangju ">광주</a></li>
+                                <li><a href="/news/jellanam">전남</a></li>
+                                <li><a href="/news/jeollabuk">전북</a></li>
+                                <li><a href="/news/daejeon">대전</a></li>
+                                <li><a href="/news/chungcheongnam">충남</a></li>
+                                <li><a href="/news/sejong">세종</a></li>
+                                <li><a href="/news/chungcheongbuk">충북</a></li>
+                                <li><a href="/news/gangwon">강원</a></li>
+                                <li><a href="/news/jeju">제주</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/board">건의 게시판</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Section -->
+
+                <!-- Footer -->
+                <footer id="footer">
+                    <p class="copyright">Copyright © 2021, Gaon road, SoonChunHyang University, All rights reserved.
+                    </p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+
+    <script>
+        var socket = io();  // 소켓 io 객체
+
+        var path = window.location.pathname.split("/").pop() + "";
+        socket.emit('request_news_r', path);  // 뉴스 데이터 요청
+
+        socket.on('news_data_r', function (msg) {
+
+            if (msg.length == 0) {
+                var div = document.getElementsByClassName('boxx').item(0);
+                var p = document.createElement('p');
+                p.textContent = "최근 뉴스가 존재 하지 않습니다.";
+                p.style.padding = "30px 0px 0px 0px";
+                div.appendChild(p);
+            }
+            else {
+                for (var i = 0; i < msg.length; i++) {
+                    //socket.emit('msg_00', msg[i]['reporting_date']);
+
+                    var div = document.getElementsByClassName('boxx').item(0);
+                    var a = document.createElement('a');
+                    a.href = msg[i]['url'];
+                    a.target = '_blank'
+
+                    var table = document.createElement('table');
+                    table.id = "tab";
+                    table.border = "3";
+
+                    var tr = document.createElement('tr');
+
+                    var td_1 = document.createElement('td');
+                    td_1.rowspan = "3";
+
+                    var h3 = document.createElement('h3');
+                    h3.textContent = msg[i]['title'];
+
+                    var p_1 = document.createElement('p');
+                    p_1.textContent = msg[i]['body'];
+                    p_1.id = "qwe";
+
+                    var p_2 = document.createElement('p');
+                    p_2.id = "day";
+                    p_2.textContent = msg[i]['reporting_date'];
+
+                    var td_2 = document.createElement('td');
+
+                    var img = document.createElement('img');
+                    img.id = "crime";
+                    img.src = 'https:' + msg[i]['img'];
+
+
+                    td_1.appendChild(h3);
+                    td_1.appendChild(p_1);
+                    td_1.appendChild(p_2);
+                    tr.appendChild(td_1);
+                    td_2.appendChild(img);
+                    tr.appendChild(td_2);
+                    table.appendChild(tr);
+                    a.appendChild(table);
+
+
+                    div.appendChild(a);
+
+                }
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>

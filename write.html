@@ -25,11 +25,11 @@
 					</a>
 				</header>
 				<div class="form_box">
-					<h3>게시물 올리기</h3><br>
+					<h3>글 쓰기</h3><br>
 					<input class="input_field" type="text" placeholder="닉네임"><br>
 					<input class="input_field" type="password" placeholder="비밀번호"><br>
-					<input class="input_field" type="text" placeholder="제목을 입력해주세요."><br>
-					<textarea class="textarea_field" placeholder="  내용을 입력해주세요."></textarea><br>
+					<input class="input_field" type="text" placeholder="제목을 입력하세요"><br>
+					<textarea class="textarea_field" placeholder="  내용을 입력하세요"></textarea><br>
 					<button class="write_button" onclick="button_click();">등록</button>
 				</div>
 			</div>
@@ -50,19 +50,23 @@
 						<li>
 							<span class="opener">뉴스기사</span>
 							<ul>
-								<li><a href="/news">서울</a></li>
-								<li><a href="#">경기</a></li>
-								<li><a href="#">인천</a></li>
-								<li><a href="#">부산</a></li>
-								<li><a href="#">울산</a></li>
-								<li><a href="#">경남</a></li>
-								<li><a href="#">대구/경북</a></li>
-								<li><a href="#">광주/전남</a></li>
-								<li><a href="#">전북</a></li>
-								<li><a href="#">대전/충남/세종</a></li>
-								<li><a href="#">충북</a></li>
-								<li><a href="#">강원</a></li>
-								<li><a href="#">제주</a></li>
+                                <li><a href="/news/seoul">서울</a></li>
+                                <li><a href="/news/gyeonggi">경기</a></li>
+                                <li><a href="/news/incheon">인천</a></li>
+                                <li><a href="/news/busan">부산</a></li>
+                                <li><a href="/news/ulsan">울산</a></li>
+                                <li><a href="/news/gyeongsangnam">경남</a></li>
+                                <li><a href="/news/daegu">대구</a></li>
+                                <li><a href="/news/gyeongsangbuk">경북</a></li>
+                                <li><a href="/news/gwangju ">광주</a></li>
+                                <li><a href="/news/jellanam">전남</a></li>
+                                <li><a href="/news/jeollabuk">전북</a></li>
+                                <li><a href="/news/daejeon">대전</a></li>
+                                <li><a href="/news/chungcheongnam">충남</a></li>
+                                <li><a href="/news/sejong">세종</a></li>
+                                <li><a href="/news/chungcheongbuk">충북</a></li>
+                                <li><a href="/news/gangwon">강원</a></li>
+                                <li><a href="/news/jeju">제주</a></li>
 							</ul>
 						</li>
 						<li><a href="/board">건의 게시판</a></li>
@@ -111,8 +115,8 @@
 				alert("내용을 입력해주세요.");
 			}
 			else {
-				var sql_str = 'INSERT INTO Crime.board (writer, pw, title, body) VALUE( \"' + input_name.value + '\", SHA2(\"' + input_password.value + '\",256), \"' + input_title.value + '\", \"' + input_textarea_field.value + '\");'
-				socket.emit('request_sql', sql_str);
+				var sql_str = 'INSERT INTO Crime.board (writer, pw, title, body,write_date) VALUE( \"' + input_name.value + '\", SHA2(\"' + input_password.value + '\",256), \"' + input_title.value + '\", \"' + input_textarea_field.value + '\",CURDATE());'
+				socket.emit('insert_sql', sql_str);
 				location.assign("/board");
 			}
 		}

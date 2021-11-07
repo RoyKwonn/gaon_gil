@@ -16,9 +16,9 @@ app.get('/index', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/news', (req, res) => {
-    res.sendFile(__dirname + '/news.html');
-});
+//app.get('/news', (req, res) => {
+//    res.sendFile(__dirname + '/news.html');
+//});
 
 
 
@@ -129,6 +129,10 @@ app.get('/write', (req, res) => {
     res.sendFile(__dirname + '/write.html');
 });
 
+app.get('/con', (req, res) => {
+    res.sendFile(__dirname + '/contents.html');
+});
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/introduce.html');
 });
@@ -149,9 +153,9 @@ app.get('/box', (req, res) => {
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host: '34.146.81.27',
-    user: 'ubuntu',
-    password: 'zmffhqk',
+    host: 'localhost',
+    user: 'root',
+    password: '@zmffhqk',
     database: 'Crime',
     dateStrings: 'date'
 });
@@ -207,18 +211,18 @@ io.on('connection', (socket) => {
 
 
 // 뉴스 데이터를 받아온다.
-io.on('connection', (socket) => {
-    socket.on('request_news', (msg) => {
-        connection.query('select url, title, body, reporting_date, img from Crime.news order by reporting_date desc limit 8;', (error, rows, fields) => {
-            if (error) throw error;
-            io.to(socket.id).emit('news_data', rows);
-        });
-    });
-});
+//io.on('connection', (socket) => {
+//    socket.on('request_news', (msg) => {
+//        connection.query('select url, title, body, reporting_date, img from Crime.news order by reporting_date desc limit 8;', (error, rows, fields) => {
+//            if (error) throw error;
+//            io.to(socket.id).emit('news_data', rows);
+//        });
+//    });
+//});
 
 
 
-/*****뉴스 테스트********/
+
 // 뉴스 데이터를 받아온다.
 io.on('connection', (socket) => {
     socket.on('request_news_r', (msg) => {
@@ -231,17 +235,42 @@ io.on('connection', (socket) => {
 
 
 
-
-
-
-
-// 쿼리 질의를 처리한다.
+// 게시글의 개수를 받아온다.
 io.on('connection', (socket) => {
-    socket.on('request_sql', (msg) => {
-        console.log(msg);
+    socket.on('request_board_size', (msg) => {
+        connection.query('SELECT count(num) from board;', (error, rows, fields) => {
+            if (error) throw error;
+            io.to(socket.id).emit('request_board_size', rows);
+        });
+    });
+});
+
+
+
+
+// 게시글 데이터를 받아온다.
+io.on('connection', (socket) => {
+    socket.on('request_board_data', (msg) => {
+        connection.query('select * from board;', (error, rows, fields) => {
+            if (error) throw error;
+            io.to(socket.id).emit('board_data', rows);
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+// insert 쿼리 질의용
+io.on('connection', (socket) => {
+    socket.on('insert_sql', (msg) => {
         connection.query(msg, (error, rows, fields) => {
             if (error) throw error;
-            io.to(socket.id).emit('sql_data', rows);
         });
     });
 });

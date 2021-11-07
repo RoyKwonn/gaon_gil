@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .btn {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: gray;
+    color: white;
+    padding: 5px 15px;
+    font-size: 13px;
+    margin-left: 5px;
+    margin-bottom: 30px;
+  }
+
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing : 0;
+  }
+  
+  caption {
+    display: none;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  th {
+    border-collapse: collapse;
+    border-spacing : 0;
+  }
+  
+  .board_list_wrap {
+    padding-top: 30px;
+  }
+  
+  .board_list {
+    width: 100%;
+    border-top: 2px solid #04009a;
+  }
+  
+  .board_list tr {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .board_list th,
+  .board_list td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 10px;
+    border-collapse: collapse;
+    border-spacing : 0;
+    
+  }
+  
+  /*  컨텐츠  */
+  
+  #conmain {
+    max-height: 300px;
+    height: 300px;
+  }
+
+  #tittd {
+
+  }
