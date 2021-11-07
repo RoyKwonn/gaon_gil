@@ -63,7 +63,7 @@
         socket.on('Nationwide_data', function (msg) {
             for (var i = 0; i < msg.length; i++) {
                 var arr = [];
-                arr.push(msg[i]['지역']);
+                arr.push(msg[i]['CTP_KOR_NM']);
                 arr.push(msg[i]['X']);
                 arr.push(msg[i]['Y']);
 
@@ -112,11 +112,7 @@
                 });
             }
 
-
-
         });
-
-
 
         socket.on('response', function (msg) {
             // 정보 문자열 생성
@@ -137,14 +133,15 @@
             }
             else {
                 var info_str = [
-                    '<div class="iw_inner">',
+                '<div class="iw_inner">',
                     '   <h3>' + Data_2[seq - Data_1.length][0] + '</h3>',
                     '   <h5>범죄 현황</h5>',
-                    '   <p> 살인 ' + msg[0]['살인'] + '건<br />',
-                    '   <p> 강도 ' + msg[0]['강도'] + '건<br />',
-                    '   <p> 절도 ' + msg[0]['절도'] + '건<br />',
-                    '   <p> 폭력 ' + msg[0]['폭력'] + '건<br />',
-                    '   <p> 성범죄 ' + msg[0]['성범죄'] + '건<br />',
+                    '   <p><b>살인: </b>' + msg[0]['살인'] + '건<br />',
+                    '   <p><b>강도: </b>' + msg[0]['강도'] + '건<br />',
+                    '   <p><b>절도: </b>' + msg[0]['절도'] + '건<br />',
+                    '   <p><b>폭력: </b>' + msg[0]['폭력'] + '건<br />',
+                    '   <p><b>성범죄: </b>' + msg[0]['성범죄'] + '건<br />',
+                    '   <br>',
                     '   </p>',
                     '</div>'
                 ].join('');

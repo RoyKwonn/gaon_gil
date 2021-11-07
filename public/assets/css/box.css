@@ -1,0 +1,48 @@
+.boxx {
+    padding: 0;
+    margin: 0;
+    margin-top: -35px;
+    display: block;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.boxx article {
+    border: solid 3px black;
+    margin-top: 30px;
+}
+
+.boxx a {
+    color: grey;
+}
+
+#qwe {
+    width: 100%;
+    margin-top: 0.8em;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap:break-word;
+    line-height: 1em;
+    height: 3em;
+}
+
+#day {
+    font-size: 12px;
+    padding-left: 20%;
+}
+
+#crime {
+	width: 150px;
+    height: 140px;
+}
+
+.boxx h3 {
+    
+    font-size: 15px;
+    padding-top: 10px;
+    width: 100%;
+    overflow: hidden;
+    color : black;
+}

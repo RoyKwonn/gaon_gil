@@ -1,76 +1,124 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>가온길</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="is-preload">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<head>
+	<title>가온길 | Write</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
+<body class="is-preload" style="overflow-y:hidden">
 
-							<!-- Header -->
-								<header id="header">
-									<a href= "/" class="logo">
-										<img src="/images/11.png"
-										style="display: block; margin: 0 auto; margin-top: -55px;
-										width:13vw; height:9vw;">
-									</a>
-								</header>
+	<!-- Wrapper -->
+	<div id="wrapper">
 
-							<!-- Iframe -->
-							<div class="form_box">
-                                <h3>게시물 올리기</h3>
-                                <input class="input_field" type="text" placeholder="글쓴이의 이름은?" ><br>
-                                <input class="input_field" type="password" placeholder="글 비밀번호" ><br>
-                                <input class="input_field" type="text" placeholder="제목을 입력해주세요." ><br>
-                                <textarea class="textarea_field" placeholder="내용을 입력해주세요."></textarea><br>
-                                <button class="write_button">게시</button>
-                            </div>
-							
-						</div>
-					</div>
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
 
-				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
-
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>Menu</h2>
-									</header>
-									<ul>
-										<li><a href="/">지도</a></li>
-										<li><a href="/news">뉴스기사</a></li>
-										<li><a href="/board">건의 게시판</a></li>
-										<li><a href="#">도움말</a></li>
-									</ul>
-								</nav>
-
-							<!-- Section -->
-
-							<!-- Footer -->
-								<footer id="footer">
-									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-								</footer>
-
-						</div>
-					</div>
+				<!-- Header -->
+				<header id="header">
+					<a href="/" class="logo">
+						<img src="/images/11.png" style="display: block; margin: 0 auto; margin-top: -55px;
+										width:85px; height:75px;">
+					</a>
+				</header>
+				<div class="form_box">
+					<h3>게시물 올리기</h3><br>
+					<input class="input_field" type="text" placeholder="닉네임"><br>
+					<input class="input_field" type="password" placeholder="비밀번호"><br>
+					<input class="input_field" type="text" placeholder="제목을 입력해주세요."><br>
+					<textarea class="textarea_field" placeholder="  내용을 입력해주세요."></textarea><br>
+					<button class="write_button" onclick="button_click();">등록</button>
+				</div>
 			</div>
+		</div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
 
-	</body>
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2>Menu</h2>
+					</header>
+					<ul>
+						<li><a href="/">소개</a></li>
+						<li><a href="/main">지도</a></li>
+						<li>
+							<span class="opener">뉴스기사</span>
+							<ul>
+								<li><a href="/news">서울</a></li>
+								<li><a href="#">경기</a></li>
+								<li><a href="#">인천</a></li>
+								<li><a href="#">부산</a></li>
+								<li><a href="#">울산</a></li>
+								<li><a href="#">경남</a></li>
+								<li><a href="#">대구/경북</a></li>
+								<li><a href="#">광주/전남</a></li>
+								<li><a href="#">전북</a></li>
+								<li><a href="#">대전/충남/세종</a></li>
+								<li><a href="#">충북</a></li>
+								<li><a href="#">강원</a></li>
+								<li><a href="#">제주</a></li>
+							</ul>
+						</li>
+						<li><a href="/board">건의 게시판</a></li>
+					</ul>
+				</nav>
+
+				<!-- Section -->
+
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">Copyright © 2021, Gaon road, SoonChunHyang  University, All rights reserved. </p>
+				</footer>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+		var socket = io();  // 소켓 io 객체
+
+		var input_name = document.getElementsByClassName("input_field")[0];
+		var input_password = document.getElementsByClassName('input_field')[1];
+		var input_title = document.getElementsByClassName('input_field')[2];
+		var input_textarea_field = document.getElementsByClassName('input_field')[0];
+
+		function button_click() {
+
+			if (input_name.value == '') {
+				alert("닉네임을 입력해주세요.");
+			}
+			else if (input_password.value == '') {
+				alert("비밀번호를 입력해주세요.");
+			}
+			else if (input_title.value == '') {
+				alert("제목을 입력해주세요.");
+			}
+			else if (input_textarea_field.value == '') {
+				alert("내용을 입력해주세요.");
+			}
+			else {
+				var sql_str = 'INSERT INTO Crime.board (writer, pw, title, body) VALUE( \"' + input_name.value + '\", SHA2(\"' + input_password.value + '\",256), \"' + input_title.value + '\", \"' + input_textarea_field.value + '\");'
+				socket.emit('request_sql', sql_str);
+				location.assign("/board");
+			}
+		}
+
+	</script>
+
+</body>
+
 </html>
