@@ -1,0 +1,34 @@
+    /*   그래프   */
+
+    .graph {
+        width: 100%;
+        height: 300px;
+        border-bottom: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        margin-top: 30px;
+        position: relative;
+    }
+      .graph-bar {
+        display: inline-block;
+        position: absolute;
+        width: 25px;
+        bottom: 0;
+        perspective:200px;
+        background:#414df0;
+        box-shadow: 
+          1px -1px #6175cf, 
+          2px -2px #6175cf, 
+          3px -3px #6175cf,   
+          4px -4px #6175cf, 
+          5px -5px #6175cf, 
+          6px -6px #6175cf, 
+          7px -7px #6175cf, 
+          8px -8px #6175cf, 
+          9px -9px #6175cf, 
+          10px -10px #6175cf;
+    }
+
+    .grp1 {
+        margin-top: 30px;
+    }
+  

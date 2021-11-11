@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>가온길 | Modification</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="is-preload" style="overflow-y:hidden">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+
+				<!-- Header -->
+				<header id="header">
+					<a href="/" class="logo">
+						<img src="/images/11.png" style="display: block; margin: 0 auto; margin-top: -55px;
+										width:85px; height:75px;">
+					</a>
+				</header>
+				<div class="form_box">
+					<h3>수정하기</h3><br>
+					<input class="input_field" type="text" maxlength="8" placeholder="닉네임"><br>
+					<input class="input_field" type="password" maxlength="8" placeholder="비밀번호"><br>
+					<input class="input_field" type="text" maxlength="15" placeholder="제목을 입력하세요"><br>
+					<textarea class="textarea_field" maxlength="200" placeholder="  내용을 입력하세요"></textarea><br>
+					<button class="write_button" onclick="button_click();">등록</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2>Menu</h2>
+					</header>
+					<ul>
+						<li><a href="/">소개</a></li>
+						<li><a href="/main">지도</a></li>
+						<li><a href="/graph">범죄 통계</a></li>
+						<li>
+							<span class="opener">뉴스기사</span>
+							<ul>
+								<li><a href="/news/seoul">서울</a></li>
+								<li><a href="/news/gyeonggi">경기</a></li>
+								<li><a href="/news/incheon">인천</a></li>
+								<li><a href="/news/busan">부산</a></li>
+								<li><a href="/news/ulsan">울산</a></li>
+								<li><a href="/news/gyeongsangnam">경남</a></li>
+								<li><a href="/news/daegu">대구</a></li>
+								<li><a href="/news/gyeongsangbuk">경북</a></li>
+								<li><a href="/news/gwangju ">광주</a></li>
+								<li><a href="/news/jellanam">전남</a></li>
+								<li><a href="/news/jeollabuk">전북</a></li>
+								<li><a href="/news/daejeon">대전</a></li>
+								<li><a href="/news/chungcheongnam">충남</a></li>
+								<li><a href="/news/sejong">세종</a></li>
+								<li><a href="/news/chungcheongbuk">충북</a></li>
+								<li><a href="/news/gangwon">강원</a></li>
+								<li><a href="/news/jeju">제주</a></li>
+							</ul>
+						</li>
+						<li><a href="/board">건의 게시판</a></li>
+					</ul>
+				</nav>
+
+				<!-- Section -->
+
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">Copyright © 2021, Gaon road, SoonChunHyang University, All rights reserved.
+					</p>
+				</footer>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+		var socket = io();  // 소켓 io 객체
+
+		var input_num = 0;
+		var input_name = document.getElementsByClassName("input_field")[0];
+		var input_password = document.getElementsByClassName('input_field')[1];
+		var input_title = document.getElementsByClassName('input_field')[2];
+		var input_textarea_field = document.getElementsByClassName('textarea_field')[0];
+
+
+		socket.emit('contents_request_c', null);  // 게시글 데이터 요청
+
+
+		socket.on('contents_c', function (msg) {
+			if (msg == null) {
+				alert("error.");
+				location.assign("/board");
+			}
+			else {
+				//arr.push(msg[i]['num']);
+				//arr.push(msg[i]['writer']);
+				//arr.push(msg[i]['pw']);
+				//arr.push(msg[i]['title']);
+				//arr.push(msg[i]['body']);
+				//arr.push("작성일!");
+
+				input_num = msg[0];
+				input_name.value = "" + msg[1];
+				input_password.value;
+				input_title.value = "" + msg[3];
+				input_textarea_field.value = "" + msg[4];
+			}
+		});
+
+
+		// 비밀번호 체크
+		socket.on('pw_error_c', function (msg) {
+			if (msg)
+				location.assign("/board");
+			else {
+				alert("비밀번호가 틀립니다!");
+				input_password.value = "";
+			}
+		});
+
+
+
+		//등록 버튼 처리
+		function button_click() {
+
+			if (input_name.value == '') {
+				alert("닉네임을 입력해주세요.");
+			}
+			else if (input_password.value == '') {
+				alert("비밀번호를 입력해주세요.");
+			}
+			else if (input_title.value == '') {
+				alert("제목을 입력해주세요.");
+			}
+			else if (input_textarea_field.value == '') {
+				alert("내용을 입력해주세요.");
+			}
+			else if (input_num == 0) {
+				alert("error");
+				location.assign("/board");
+			}
+			else {
+				// 수정 문
+				var sql_str = "UPDATE Crime.board SET writer=\'" + input_name.value + "\', title=\'" + input_title.value + "\', body=\'" + input_textarea_field.value + "\'where num =\'" + input_num + "\'and pw = SHA2(\'" + input_password.value + "\',256);"
+				socket.emit('update_sql', sql_str);
+			}
+		}
+
+	</script>
+
+</body>
+
+</html>

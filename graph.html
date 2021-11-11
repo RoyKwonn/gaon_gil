@@ -6,6 +6,8 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/grp.css" />
+
 </head>
 
 <body class="is-preload" style="overflow-y:hidden">
@@ -23,15 +25,10 @@
 					</a>
 				</header>
 
-				<!-- Iframe -->
-				<div class="grp">
-                    <ul class="graph">
-                        <li class="graph-bar bar1" graph-val="30"></li>
-                        <li class="graph-bar bar2" graph-val="80"></li>
-                        <li class="graph-bar bar3" graph-val="60"></li>
-                        <li class="graph-bar bar4" graph-val="30"></li>   
-                      </ul>
-                </div>
+				<div class="grp1">
+					<canvas id="bar-chart" width="300" height="400"></canvas>
+					<p style="text-align: right; font-size: 11px; color:rgb(106, 124, 206)">단위 : 백 명</p>
+				</div>
 
 			</div>
 		</div>
@@ -46,29 +43,29 @@
 						<h2>Menu</h2>
 					</header>
 					<ul>
-						<li><a href="/introduce">소개</a></li>
-						<li><a href="/">지도</a></li>
-                        <li><a href="/graph">범죄 통계</a></li>
+						<li><a href="/">소개</a></li>
+						<li><a href="/main">지도</a></li>
+						<li><a href="/graph">범죄 통계</a></li>
 						<li>
 							<span class="opener">뉴스 기사</span>
 							<ul>
-                                <li><a href="/news/seoul">서울</a></li>
-                                <li><a href="/news/gyeonggi">경기</a></li>
-                                <li><a href="/news/incheon">인천</a></li>
-                                <li><a href="/news/busan">부산</a></li>
-                                <li><a href="/news/ulsan">울산</a></li>
-                                <li><a href="/news/gyeongsangnam">경남</a></li>
-                                <li><a href="/news/daegu">대구</a></li>
-                                <li><a href="/news/gyeongsangbuk">경북</a></li>
-                                <li><a href="/news/gwangju ">광주</a></li>
-                                <li><a href="/news/jellanam">전남</a></li>
-                                <li><a href="/news/jeollabuk">전북</a></li>
-                                <li><a href="/news/daejeon">대전</a></li>
-                                <li><a href="/news/chungcheongnam">충남</a></li>
-                                <li><a href="/news/sejong">세종</a></li>
-                                <li><a href="/news/chungcheongbuk">충북</a></li>
-                                <li><a href="/news/gangwon">강원</a></li>
-                                <li><a href="/news/jeju">제주</a></li>
+								<li><a href="/news/seoul">서울</a></li>
+								<li><a href="/news/gyeonggi">경기</a></li>
+								<li><a href="/news/incheon">인천</a></li>
+								<li><a href="/news/busan">부산</a></li>
+								<li><a href="/news/ulsan">울산</a></li>
+								<li><a href="/news/gyeongsangnam">경남</a></li>
+								<li><a href="/news/daegu">대구</a></li>
+								<li><a href="/news/gyeongsangbuk">경북</a></li>
+								<li><a href="/news/gwangju ">광주</a></li>
+								<li><a href="/news/jellanam">전남</a></li>
+								<li><a href="/news/jeollabuk">전북</a></li>
+								<li><a href="/news/daejeon">대전</a></li>
+								<li><a href="/news/chungcheongnam">충남</a></li>
+								<li><a href="/news/sejong">세종</a></li>
+								<li><a href="/news/chungcheongbuk">충북</a></li>
+								<li><a href="/news/gangwon">강원</a></li>
+								<li><a href="/news/jeju">제주</a></li>
 							</ul>
 						</li>
 						<li><a href="/board">건의 게시판</a></li>
@@ -89,13 +86,51 @@
 	</div>
 
 	<!-- Scripts -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/browser.min.js"></script>
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
-    <script src="assets/js/grp.js"></script>
+	<script src="assets/js/grp.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 
-    </body>
+	<script>
+		var socket = io();  // 소켓 io 객체
+		socket.emit('request_graph', null);  // 그래프 데이터 요청
+
+		socket.on('graph', function (msg) {
+			var arr = [msg[0]['sum(살인)']/100, msg[0]['sum(강도)']/100,msg[0]['sum(절도)']/100,msg[0]['sum(폭력)']/100,msg[0]['sum(성범죄)']/100];
+			//alert(arr);
+
+
+			var ctx = document.getElementById("bar-chart").getContext('2d');
+			new Chart(document.getElementById("bar-chart"), {
+				type: 'bar',
+				data: {
+					labels: ["살인", "강도", "절도", "폭력", "성범죄"],
+					datasets: [
+						{
+							label: "범죄 횟수(백명)",
+							backgroundColor: ["#5C7AEA", "#3D56B2", "#3e95cd", "#14279B", "#1597E5"],
+							data: arr
+						}
+					]
+				},
+				options: {
+					legend: { display: false },
+					title: {
+						display: true,
+						text: '전국 범죄 통계(2021)'
+					}
+				}
+
+			});
+		});
+
+
+	</script>
+
+</body>
 
 </html>
